@@ -1042,3 +1042,19 @@ select v.fecha, (v.Precio * v.Cantidad)*100/sum(v.Precio * v.Cantidad) as Porcen
 from venta v join producto p
 ON (v.IdProducto = p.IdProducto and year(v.fecha)=2018 and v.Outlier = 1)
 group by month(v.fecha);
+
+-- 3) Optimización de Indices
+/*
+📊 Con la finalidad de optimizar los Índices del modelo SQL, se pueden implementar las siguientes modificaciones:
+1.- Índice en una Clave Principal: Cuando creamos una tabla en SQL, podemos definir una clave principal que garantiza la unicidad de los registros. Al crear un índice en esta clave, aceleramos las búsquedas por ese campo, lo que es esencial en consultas de búsqueda rápida.
+2.- Índice en Columna de Búsqueda Frecuente: Si tenemos una columna que se utiliza con frecuencia en consultas WHERE o JOIN, crear un índice en esta columna mejora significativamente el rendimiento de esas consultas.
+3.-  Índice en Columna de Ordenamiento: Si necesitamos realizar consultas con ORDER BY en una columna específica, un índice en esa columna facilita la clasificación rápida de los resultados.
+4.- Índice en Columna de Agrupamiento: Al crear índices en columnas utilizadas en operaciones GROUP BY, aceleramos el proceso de agregación de datos en consultas.
+5.- Índice en Columna de Búsqueda Textual: Si realizamos búsquedas de texto completo en una columna, la creación de un índice en esa columna mejora la velocidad de búsqueda.
+6.- Índice en Columna de Fecha: En aplicaciones que manejan fechas, un índice en columnas de fecha facilita la búsqueda y filtrado de datos por período.
+7.- Índice en Columna de Clasificación Personalizada: Si necesitamos una clasificación personalizada en una columna, un índice que refleje esta clasificación puede acelerar las consultas que la utilizan.
+8.- Índice en Columna de Valor Distinto: En columnas con valores distintos (pocos valores repetidos), un índice puede ser especialmente útil para consultas de selección.
+9.- Índice en Columna de Clave Externa: Cuando utilizamos claves foráneas en relaciones entre tablas, crear índices en las columnas de clave foránea mejora las operaciones JOIN.
+10.- Índice en Columna de Conteo o Suma: En consultas que involucran agregación, un índice en una columna utilizada en funciones COUNT o SUM agiliza los cálculos.
+
+*/
