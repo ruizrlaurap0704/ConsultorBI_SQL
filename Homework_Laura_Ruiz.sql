@@ -1,10 +1,12 @@
+/* Eliminar la Base de Datos si existe */
 DROP DATABASE modelo_negocio;
+/* Crear la Base de Datos si existe */
 CREATE DATABASE IF NOT EXISTS modelo_negocio;
+/* Usar la Base de Datos Creada */
 USE modelo_negocio;
-
-SELECT @@global.secure_file_priv; -- Para ver la ruta de origen donde poner los csv. Archivo: My.ini En: [mysqld] cambiar: secure_file_priv = 'path'
-
-/*Importacion de las tablas*/
+/* Para ver la ruta de origen donde poner los csv. Archivo: My.ini En: [mysqld] cambiar: secure_file_priv = 'path'*/
+SELECT @@global.secure_file_priv; 
+/* IMPORTACION DE TABLAS */
 DROP TABLE IF EXISTS `gasto`;
 CREATE TABLE IF NOT EXISTS `gasto` (
   	`IdGasto` 		INTEGER,
@@ -19,7 +21,8 @@ INTO TABLE `gasto`
 FIELDS TERMINATED BY ',' ENCLOSED BY '' ESCAPED BY '' 
 LINES TERMINATED BY '\n' IGNORE 1
 LINES (IdGasto,IdSucursal,IdTipoGasto,Fecha,Monto);
--- SELECT * FROM gasto;
+/* Vemos si la Tabla cargo correctamente*/
+SELECT * FROM gasto;
 
 DROP TABLE IF EXISTS `compra`;
 CREATE TABLE IF NOT EXISTS `compra` (
@@ -34,7 +37,8 @@ LOAD DATA INFILE 'C:\\xampp\\mysql\\Uploads\\Compra.csv'
 INTO TABLE `compra` 
 FIELDS TERMINATED BY ',' ENCLOSED BY '' ESCAPED BY '' 
 LINES TERMINATED BY '\n' IGNORE 1 LINES;
--- SELECT * FROM compra;
+/* Vemos si la Tabla cargo correctamente*/
+SELECT * FROM compra;
 
 DROP TABLE IF EXISTS `venta`;
 CREATE TABLE IF NOT EXISTS `venta` (
@@ -55,7 +59,8 @@ LOAD DATA INFILE 'C:\\xampp\\mysql\\Uploads\\Venta.csv'
 INTO TABLE `venta` 
 FIELDS TERMINATED BY ',' ENCLOSED BY '' ESCAPED BY '' 
 LINES TERMINATED BY '\r\n' IGNORE 1 LINES;
--- SELECT * FROM venta;
+/* Vemos si la Tabla cargo correctamente*/
+SELECT * FROM venta;
 
 DROP TABLE IF EXISTS sucursal;
 CREATE TABLE IF NOT EXISTS sucursal (
@@ -73,7 +78,8 @@ INTO TABLE sucursal
 CHARACTER SET latin1 -- Si no colocamos esta línea, no reconoce la codificación adecuada ANSI
 FIELDS TERMINATED BY ';' ENCLOSED BY '\"' ESCAPED BY '\"' 
 LINES TERMINATED BY '\n' IGNORE 1 LINES;
--- SELECT * FROM sucursal;
+/* Vemos si la Tabla cargo correctamente*/
+SELECT * FROM sucursal;
 
 DROP TABLE IF EXISTS cliente;
 CREATE TABLE IF NOT EXISTS cliente (
@@ -99,7 +105,8 @@ INTO TABLE cliente
 CHARACTER SET latin1
 FIELDS TERMINATED BY ';' ENCLOSED BY '\"' ESCAPED BY '\"' 
 LINES TERMINATED BY '\n' IGNORE 1 LINES;
--- SELECT * FROM cliente;
+/* Vemos si la Tabla cargo correctamente*/
+SELECT * FROM cliente;
 
 DROP TABLE IF EXISTS `canal_venta`;
 CREATE TABLE IF NOT EXISTS `canal_venta` (
@@ -111,7 +118,8 @@ LOAD DATA INFILE 'C:\\xampp\\mysql\\Uploads\\CanalDeVenta.csv'
 INTO TABLE `canal_venta` 
 FIELDS TERMINATED BY ';' ENCLOSED BY '\"'
 LINES TERMINATED BY '\n' IGNORE 1 LINES;
--- SELECT * FROM canal_venta;
+/* Vemos si la Tabla cargo correctamente*/
+SELECT * FROM canal_venta;
 
 DROP TABLE IF EXISTS `tipo_gasto`;
 CREATE TABLE IF NOT EXISTS `tipo_gasto` (
@@ -125,7 +133,8 @@ LOAD DATA INFILE 'C:\\xampp\\mysql\\Uploads\\TiposDeGasto.csv'
 INTO TABLE `tipo_gasto` 
 FIELDS TERMINATED BY ',' ENCLOSED BY '\"'
 LINES TERMINATED BY '\n' IGNORE 1 LINES;
--- SELECT * FROM tipo_gasto;
+/* Vemos si la Tabla cargo correctamente*/
+SELECT * FROM tipo_gasto;
 
 DROP TABLE IF EXISTS proveedor;
 CREATE TABLE IF NOT EXISTS proveedor (
@@ -142,7 +151,8 @@ LOAD DATA INFILE 'C:\\xampp\\mysql\\Uploads\\Proveedores.csv'
 INTO TABLE proveedor
 FIELDS TERMINATED BY ';' ENCLOSED BY '\"' ESCAPED BY '\"' 
 LINES TERMINATED BY '\n' IGNORE 1 LINES;
--- SELECT * FROM proveedor;
+/* Vemos si la Tabla cargo correctamente*/
+SELECT * FROM proveedor;
 
 DROP TABLE IF EXISTS producto;
 CREATE TABLE IF NOT EXISTS producto (
@@ -173,12 +183,13 @@ LOAD DATA INFILE 'C:\\xampp\\mysql\\Uploads\\Empleados.csv'
 INTO TABLE `empleado` 
 FIELDS TERMINATED BY ';' ENCLOSED BY '\"' ESCAPED BY '\"' 
 LINES TERMINATED BY '\n' IGNORE 1 LINES;
--- SELECT * FROM empleado; 
+/* Vemos si la Tabla cargo correctamente*/
+SELECT * FROM empleado; 
 
 -- CALENDARIO -- 
 SET GLOBAL log_bin_trust_function_creators = 1;
 
-/*Función y Procedimiento*/
+/*FUNCIÓN Y PROCEDIMIENTO*/
 DROP FUNCTION IF EXISTS `UC_Words`;
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` FUNCTION `UC_Words`( str VARCHAR(255) ) RETURNS varchar(255) CHARSET utf8
@@ -249,7 +260,8 @@ CREATE TABLE calendario (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 ALTER TABLE `calendario` CHANGE `id` `IdFecha` INT(11) NOT NULL;
-/*Creacion de Id*/
+
+/*CREACIÓN DE ID*/
 ALTER TABLE `calendario` ADD UNIQUE(`fecha`);
 
 /*TRUNCATE TABLE calendario;*/
@@ -264,9 +276,10 @@ ALTER TABLE `tipo_gasto` CHANGE `Descripcion` `Tipo_Gasto` VARCHAR(100) CHARACTE
 ALTER TABLE `producto` CHANGE `IDProducto` `IdProducto` INT(11) NULL DEFAULT NULL;
 ALTER TABLE `producto` CHANGE `Concepto` `Producto` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NULL DEFAULT NULL;
 
--- select * from cliente;
+/* Vemos si la Tabla cargo correctamente*/
+select * from cliente;
 
-/*Tipos de Datos*/
+/*TIPOS DE DATOS*/
 ALTER TABLE `cliente` 	ADD `Latitud` DECIMAL(13,10) NOT NULL DEFAULT '0' AFTER `Y`, 
 						ADD `Longitud` DECIMAL(13,10) NOT NULL DEFAULT '0' AFTER `Latitud`;
 UPDATE cliente SET Y = '0' WHERE Y = '';
@@ -274,7 +287,8 @@ UPDATE cliente SET X = '0' WHERE X = '';
 UPDATE `cliente` SET Latitud = REPLACE(Y,',','.');
 UPDATE `cliente` SET Longitud = REPLACE(X,',','.');
 
--- SELECT * FROM `cliente`;
+/* Vemos si la Tabla cargo correctamente*/
+SELECT * FROM `cliente`;
 ALTER TABLE `cliente` DROP `Y`;
 ALTER TABLE `cliente` DROP `X`;
 
@@ -292,7 +306,8 @@ ALTER TABLE `sucursal` 	ADD `Latitud` DECIMAL(13,10) NOT NULL DEFAULT '0' AFTER 
 UPDATE `sucursal` SET Latitud = REPLACE(Latitud2,',','.');
 UPDATE `sucursal` SET Longitud = REPLACE(Longitud2,',','.');
 
--- SELECT * FROM `sucursal`;
+/* Vemos si la Tabla cargo correctamente*/
+SELECT * FROM `sucursal`;
 
 ALTER TABLE `sucursal` DROP `Latitud2`;
 ALTER TABLE `sucursal` DROP `Longitud2`;
@@ -300,11 +315,13 @@ ALTER TABLE `sucursal` DROP `Longitud2`;
 UPDATE `venta` set `Precio` = 0 WHERE `Precio` = '';
 ALTER TABLE `venta` CHANGE `Precio` `Precio` DECIMAL(15,3) NOT NULL DEFAULT '0';
 
-/*Columnas sin usar*/
+/*ELIMINAMOS COLUMNAS SIN UTILIZAR*/
 ALTER TABLE `cliente` DROP `col10`;
--- SELECT * FROM cliente;
 
-/*Imputar Valores Faltantes*/
+/* Vemos si la Tabla cargo correctamente*/
+SELECT * FROM cliente;
+
+/*IMPUTAR VALORES FALTANTES*/
 UPDATE `cliente` SET Domicilio = 'Sin Dato' WHERE TRIM(Domicilio) = "" OR ISNULL(Domicilio);
 UPDATE `cliente` SET Localidad = 'Sin Dato' WHERE TRIM(Localidad) = "" OR ISNULL(Localidad);
 UPDATE `cliente` SET Nombre_y_Apellido = 'Sin Dato' WHERE TRIM(Nombre_y_Apellido) = "" OR ISNULL(Nombre_y_Apellido);
@@ -331,7 +348,7 @@ UPDATE `sucursal` SET Sucursal = 'Sin Dato' WHERE TRIM(Sucursal) = "" OR ISNULL(
 UPDATE `sucursal` SET Provincia = 'Sin Dato' WHERE TRIM(Provincia) = "" OR ISNULL(Provincia);
 UPDATE `sucursal` SET Localidad = 'Sin Dato' WHERE TRIM(Localidad) = "" OR ISNULL(Localidad);
 
-/*Normalizacion a Letra Capital*/
+/*NORMALIZACIÓN A LETRA CAPITAL*/
 UPDATE cliente SET  Domicilio = UC_Words(TRIM(Domicilio)),
                     Nombre_y_Apellido = UC_Words(TRIM(Nombre_y_Apellido));
 					
@@ -348,12 +365,12 @@ UPDATE empleado SET Nombre = UC_Words(TRIM(Nombre)),
                     
 /* UPDATE tipo_producto SET TipoProducto = UC_Words(TRIM(TipoProducto));*/
 
-/* Completo el registro precio*/
+/* COMPLETO EL REGISTRO DE PRECIO*/
 UPDATE venta v JOIN producto p ON (v.IdProducto = p.IdProducto) 
 SET v.Precio = p.Precio
 WHERE v.Precio = 0;
 
-/*Tablas de Auditoria*/
+/*TABLA DE AUDITORIA*/
 DROP TABLE IF EXISTS `aux_venta`;
 CREATE TABLE IF NOT EXISTS `aux_venta` (
   `IdVenta`				INTEGER,
